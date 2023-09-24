@@ -47,3 +47,17 @@ export const createBrandAction = createAsyncThunk(
     }
   }
 );
+
+// ! fetch all brands action
+export const fetchAllBrandsAction = createAsyncThunk(
+  "brand/fetch-all-brands",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    try {
+      // TODO: make the request
+      const { data } = await axios.get(`${baseURL}/brands`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
