@@ -61,3 +61,88 @@ export const fetchAllBrandsAction = createAsyncThunk(
     }
   }
 );
+
+// ! brand slice
+const brandsSlice = createSlice({
+  name: "brands",
+  initialState,
+  extraReducers: (builder) => {
+    // * ----- handle create brand lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(createBrandAction.pending, (state) => {
+      state.loading = true;
+      state.brands = [];
+      state.brand = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(createBrandAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.brands = [];
+      state.brand = action.payload;
+      state.isAdded = true;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(createBrandAction.rejected, (state, action) => {
+      state.loading = false;
+      state.brands = [];
+      state.brand = {};
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = action.payload;
+    });
+
+    // * ----- handle fetch all brands lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(fetchAllBrandsAction.pending, (state) => {
+      state.loading = true;
+      state.brands = [];
+      state.brand = {};
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(fetchAllBrandsAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.brands = action.payload;
+      state.brand = {};
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(fetchAllBrandsAction.rejected, (state, action) => {
+      state.loading = false;
+      state.brands = [];
+      state.brand = {};
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = action.payload;
+    });
+
+    // * ----- reset success action -----
+    builder.addCase(resetSuccessAction.pending, (state, action) => {
+      state.isAdded = false;
+    });
+
+    // * ----- reset error action -----
+    builder.addCase(resetErrorAction.pending, (state) => {
+      state.error = null;
+    });
+  },
+});
