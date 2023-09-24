@@ -22,3 +22,14 @@ export const addOrderToCartAction = createAsyncThunk(
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }
 );
+
+// ! get cart items from localStorage action
+export const getCartItemsFromLocalStorageAction = createAsyncThunk(
+  "cart/get-order-items",
+  async () => {
+    const cartItems = localStorage.getItem("cartItems")
+      ? JSON.parse(localStorage.getItem("cartItems"))
+      : [];
+    return cartItems;
+  }
+);
