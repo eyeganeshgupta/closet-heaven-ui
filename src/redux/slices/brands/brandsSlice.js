@@ -146,3 +146,8 @@ const brandsSlice = createSlice({
     });
   },
 });
+
+// ! generate the reducer
+const brandsReducer = brandsSlice.reducer;
+
+export default brandsReducer;
