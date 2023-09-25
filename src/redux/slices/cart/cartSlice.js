@@ -55,3 +55,20 @@ export const changeOrderItemQuantityAction = createAsyncThunk(
     localStorage.setItem("cartItems", JSON.stringify(newCartItems));
   }
 );
+
+// ! remove product from cart action
+export const removeOrderFromCartAction = createAsyncThunk(
+  "cart/remove-from-cart",
+  async (productId) => {
+    const cartItems = localStorage.getItem("cartItems")
+      ? JSON.parse(localStorage.getItem("cartItems"))
+      : [];
+
+    const newItems = cartItems?.filter((item) => {
+      return item?._id.toString() !== productId.toString();
+    });
+
+    // TODO: push to localStorage
+    localStorage.setItem("cartItems", JSON.stringify(newItems));
+  }
+);
