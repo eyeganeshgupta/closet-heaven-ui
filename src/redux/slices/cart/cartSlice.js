@@ -33,3 +33,25 @@ export const getCartItemsFromLocalStorageAction = createAsyncThunk(
     return cartItems;
   }
 );
+
+// ! change order item quantity action
+export const changeOrderItemQuantityAction = createAsyncThunk(
+  "cart/change-orderItem-qty",
+  async ({ productId, qty }) => {
+    const cartItems = localStorage.getItem("cartItems")
+      ? JSON.parse(localStorage.getItem("cartItems"))
+      : [];
+
+    const newCartItems = cartItems?.map((item) => {
+      if (item?._id?.toString() === productId?.toString()) {
+        // TODO: calculate newPrice
+        const newPrice = item?.price * qty;
+        item.qty = Number(qty);
+        item.totalPrice = newPrice;
+      }
+      return item;
+    });
+
+    localStorage.setItem("cartItems", JSON.stringify(newCartItems));
+  }
+);
