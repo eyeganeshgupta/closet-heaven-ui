@@ -54,3 +54,17 @@ export const createCouponAction = createAsyncThunk(
     }
   }
 );
+
+// ! fetch all coupons action
+export const fetchAllCouponsAction = createAsyncThunk(
+  "coupon/fetch-all-coupons",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    try {
+      // TODO: make the request
+      const { data } = await axios.get(`${baseURL}/coupons`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
