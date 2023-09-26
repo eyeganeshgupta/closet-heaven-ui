@@ -16,3 +16,35 @@ const initialState = {
   isDeleted: false,
   error: null,
 };
+
+// ! create color action
+export const createColorAction = createAsyncThunk(
+  "color/create",
+  async (name, { rejectWithValue, getState, dispatch }) => {
+    try {
+      // TODO 01: get the token for Authentication
+      const token = getState().users?.userAuth?.userInfo?.token;
+
+      // TODO 02: Pass the token for Authentication
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      // TODO 03: make the request
+      const { data } = await axios.post(
+        `${baseURL}/colors`,
+        {
+          name,
+        },
+        config
+      );
+
+      return data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
