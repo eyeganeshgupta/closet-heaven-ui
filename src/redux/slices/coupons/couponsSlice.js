@@ -84,3 +84,40 @@ export const fetchCouponAction = createAsyncThunk(
     }
   }
 );
+
+// ! update coupon action
+export const updateCouponAction = createAsyncThunk(
+  "coupon/update",
+  async (
+    { code, discount, startDate, endDate, id },
+    { rejectWithValue, getState, dispatch }
+  ) => {
+    try {
+      // TODO 01: get the token for Authentication
+      const token = getState().users?.userAuth?.userInfo?.token;
+
+      // TODO 02: Pass the token for Authentication
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      // TODO 03: make the request
+      const { data } = await axios.put(
+        `${baseURL}/coupons/update/${id}`,
+        {
+          code,
+          discount,
+          startDate,
+          endDate,
+        },
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
