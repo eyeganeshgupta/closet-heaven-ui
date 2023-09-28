@@ -129,3 +129,189 @@ export const updateOrderAction = createAsyncThunk(
     }
   }
 );
+
+// ! orders slice
+const ordersSlice = createSlice({
+  name: "orders",
+  initialState,
+  extraReducers: (builder) => {
+    // * ----- handle place an order lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(placeOrderAction.pending, (state) => {
+      state.loading = true;
+      state.orders = [];
+      state.order = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(placeOrderAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.orders = [];
+      state.order = action.payload;
+      state.isAdded = true;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(placeOrderAction.rejected, (state, action) => {
+      state.loading = false;
+      state.orders = [];
+      state.order = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = action.payload;
+    });
+
+    // * ----- handle fetch all orders lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(fetchAllOrdersAction.pending, (state) => {
+      state.loading = true;
+      state.orders = [];
+      state.order = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(fetchAllOrdersAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.orders = action.payload;
+      state.order = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(fetchAllOrdersAction.rejected, (state, action) => {
+      state.loading = false;
+      state.orders = [];
+      state.order = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = action.payload;
+    });
+
+    // * ----- handle fetch single order lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(fetchOrderAction.pending, (state) => {
+      state.loading = true;
+      state.orders = [];
+      state.order = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(fetchOrderAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.orders = [];
+      state.order = action.payload;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(fetchOrderAction.rejected, (state, action) => {
+      state.loading = false;
+      state.orders = [];
+      state.order = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = action.payload;
+    });
+
+    // * ----- handle fetch orders stats lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(fetchOrdersStatsAction.pending, (state) => {
+      state.loading = true;
+      state.stats = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(fetchOrdersStatsAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.stats = action.payload;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(fetchOrdersStatsAction.rejected, (state, action) => {
+      state.loading = false;
+      state.stats = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = action.payload;
+    });
+
+    // * ----- handle update an order lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(updateOrderAction.pending, (state) => {
+      state.loading = true;
+      state.order = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(updateOrderAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.order = action.payload;
+      state.isAdded = false;
+      state.isUpdated = true;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(updateOrderAction.rejected, (state, action) => {
+      state.loading = false;
+      state.order = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = action.payload;
+    });
+
+    // * ----- reset success action -----
+    builder.addCase(resetSuccessAction.pending, (state, action) => {
+      state.isAdded = false;
+    });
+
+    // * ----- reset error action -----
+    builder.addCase(resetErrorAction.pending, (state) => {
+      state.error = null;
+    });
+  },
+});
+
+// ! generate the reducer
+const ordersReducer = ordersSlice.reducer;
+
+export default ordersReducer;
