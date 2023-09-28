@@ -47,3 +47,23 @@ export const placeOrderAction = createAsyncThunk(
     }
   }
 );
+
+// ! fetch all orders action
+export const fetchAllOrdersAction = createAsyncThunk(
+  "order/fetch-all-orders",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const token = getState()?.users?.userAuth?.userInfo?.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.get(`${baseURL}/orders`, config);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
