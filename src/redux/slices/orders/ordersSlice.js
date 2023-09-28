@@ -67,3 +67,16 @@ export const fetchAllOrdersAction = createAsyncThunk(
     }
   }
 );
+
+// ! fetch single order action
+export const fetchOrderAction = createAsyncThunk(
+  "order/fetch-single-order",
+  async (orderId, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.get(`${baseURL}/orders/${orderId}`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
