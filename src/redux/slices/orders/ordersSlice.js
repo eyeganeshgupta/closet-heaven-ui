@@ -100,3 +100,32 @@ export const fetchOrdersStatsAction = createAsyncThunk(
     }
   }
 );
+
+// ! update order action
+export const updateOrderAction = createAsyncThunk(
+  "order/update-order",
+  async ({ id, status }, { rejectWithValue, getState, dispatch }) => {
+    try {
+      // TODO 01: get the token for Authentication
+      const token = getState().users?.userAuth?.userInfo?.token;
+
+      // TODO 02: Pass the token for Authentication
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      // TODO 03: make the request
+      const { data } = await axios.put(
+        `${baseURL}/orders/update/${id}`,
+        { status },
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
