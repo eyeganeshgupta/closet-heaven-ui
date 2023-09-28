@@ -80,3 +80,23 @@ export const fetchOrderAction = createAsyncThunk(
     }
   }
 );
+
+// ! fetch order stats
+export const fetchOrdersStatsAction = createAsyncThunk(
+  "order/fetch-orders-stats",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const token = getState()?.users?.userAuth?.userInfo?.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.get(`${baseURL}/orders/sales/stats`, config);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
