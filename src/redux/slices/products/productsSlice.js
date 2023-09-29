@@ -80,3 +80,24 @@ export const createProductAction = createAsyncThunk(
     }
   }
 );
+
+// ! fetch all products action
+export const fetchAllProductsAction = createAsyncThunk(
+  "product/fetch-all-products",
+  async ({ url }, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const token = getState()?.users?.userAuth?.userInfo?.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.get(`${url}`, config);
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
