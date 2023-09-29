@@ -101,3 +101,16 @@ export const fetchAllProductsAction = createAsyncThunk(
     }
   }
 );
+
+// ! fetch single product action
+export const fetchProductAction = createAsyncThunk(
+  "product/fetch-single-product",
+  async (productId, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.get(`${baseURL}/products/${productId}`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
