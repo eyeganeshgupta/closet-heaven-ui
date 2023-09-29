@@ -114,3 +114,214 @@ export const fetchProductAction = createAsyncThunk(
     }
   }
 );
+
+// ! update product action
+export const updateProductAction = createAsyncThunk(
+  "product/update",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    console.log(payload);
+    try {
+      // TODO 00: destruct payload
+      const {
+        id,
+        name,
+        description,
+        brand,
+        category,
+        sizes,
+        colors,
+        price,
+        totalQty,
+      } = payload;
+
+      // TODO 01: get the token for Authentication
+      const token = getState().users?.userAuth?.userInfo?.token;
+
+      // TODO 02: Pass the token for Authentication
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      // TODO 04: make the request
+      const { data } = await axios.put(
+        `${baseURL}/products/${id}`,
+        {
+          name,
+          description,
+          brand,
+          category,
+          sizes,
+          colors,
+          price,
+          totalQty,
+        },
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+// ! products slice
+const productsSlice = createSlice({
+  name: "products",
+  initialState,
+  extraReducers: (builder) => {
+    // * ----- handle create product lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(createProductAction.pending, (state) => {
+      state.loading = true;
+      state.products = [];
+      state.product = {};
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(createProductAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.products = [];
+      state.product = action.payload;
+      state.isAdded = true;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(createProductAction.rejected, (state, action) => {
+      state.loading = false;
+      state.products = [];
+      state.product = {};
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = action.payload;
+    });
+
+    // * ----- handle fetch all products lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(fetchAllProductsAction.pending, (state) => {
+      state.loading = true;
+      state.products = [];
+      state.product = {};
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(fetchAllProductsAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.products = action.payload;
+      state.product = {};
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(fetchAllProductsAction.rejected, (state, action) => {
+      state.loading = false;
+      state.products = [];
+      state.product = {};
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = action.payload;
+    });
+
+    // * ----- handle fetch single product lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(fetchProductAction.pending, (state) => {
+      state.loading = true;
+      state.products = [];
+      state.product = {};
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(fetchProductAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.products = [];
+      state.product = action.payload;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(fetchProductAction.rejected, (state, action) => {
+      state.loading = false;
+      state.products = [];
+      state.product = {};
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = action.payload;
+    });
+
+    // * ----- handle update product lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(updateProductAction.pending, (state) => {
+      state.loading = true;
+      state.products = [];
+      state.product = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(updateProductAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.products = [];
+      state.product = action.payload;
+      state.isAdded = false;
+      state.isUpdated = true;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(updateProductAction.rejected, (state, action) => {
+      state.loading = false;
+      state.products = [];
+      state.product = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = action.payload;
+    });
+
+    // * ----- reset success action -----
+    builder.addCase(resetSuccessAction.pending, (state, action) => {
+      state.isAdded = false;
+      state.isUpdated = false;
+    });
+
+    // * ----- reset error action -----
+    builder.addCase(resetErrorAction.pending, (state) => {
+      state.error = null;
+    });
+  },
+});
+
+// ! generate the reducer
+const productsReducer = productsSlice.reducer;
+
+export default productsReducer;
