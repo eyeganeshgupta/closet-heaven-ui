@@ -47,3 +47,59 @@ export const createReviewAction = createAsyncThunk(
     }
   }
 );
+
+// ! reviews slice
+const reviewsSlice = createSlice({
+  name: "reviews",
+  initialState,
+  extraReducers: (builder) => {
+    // * ----- handle create review lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(createReviewAction.pending, (state) => {
+      state.loading = true;
+      state.reviews = [];
+      state.review = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(createReviewAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.reviews = [];
+      state.review = action.payload;
+      state.isAdded = true;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(createReviewAction.rejected, (state, action) => {
+      state.loading = false;
+      state.reviews = [];
+      state.review = null;
+      state.isAdded = false;
+      state.isUpdated = false;
+      state.isDeleted = false;
+      state.error = action.payload;
+    });
+
+    // * ----- reset success action -----
+    builder.addCase(resetSuccessAction.pending, (state) => {
+      state.isAdded = false;
+    });
+
+    // * ----- reset error action -----
+    builder.addCase(resetErrorAction.pending, (state) => {
+      state.error = null;
+    });
+  },
+});
+
+// ! generate the reducer
+const reviewsReducer = reviewsSlice.reducer;
+
+export default reviewsReducer;
