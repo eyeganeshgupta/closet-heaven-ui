@@ -18,3 +18,23 @@ const initialState = {
   },
   error: null,
 };
+
+// ! login action
+export const loginUserAction = createAsyncThunk(
+  "users/login",
+  async ({ email, password }, { rejectWithValue, getState, dispatch }) => {
+    try {
+      // TODO 01: make http request
+      const { data } = await axios.post(`${baseURL}/users/login`, {
+        email,
+        password,
+      });
+
+      // TODO 02: save the user into localStorage
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
