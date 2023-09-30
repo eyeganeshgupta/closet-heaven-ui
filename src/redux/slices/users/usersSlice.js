@@ -60,3 +60,49 @@ export const registerUserAction = createAsyncThunk(
     }
   }
 );
+
+// ! update user shipping address
+export const updateUserShippingAddressAction = createAsyncThunk(
+  "users/update-shipping-address",
+  async (
+    {
+      firstName,
+      lastName,
+      address,
+      city,
+      country,
+      state,
+      postalCode,
+      contactNo,
+    },
+    { rejectWithValue, getState, dispatch }
+  ) => {
+    try {
+      const token = getState()?.users?.userAuth?.userInfo?.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      // TODO: make http request
+      const { data } = await axios.put(
+        `${baseURL}/users/update/shipping`,
+        {
+          firstName,
+          lastName,
+          address,
+          city,
+          country,
+          state,
+          postalCode,
+          contactNo,
+        },
+        config
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
