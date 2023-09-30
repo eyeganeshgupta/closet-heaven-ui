@@ -38,3 +38,25 @@ export const loginUserAction = createAsyncThunk(
     }
   }
 );
+
+// ! register action
+export const registerUserAction = createAsyncThunk(
+  "users/register",
+  async (
+    { fullname, email, password },
+    { rejectWithValue, getState, dispatch }
+  ) => {
+    try {
+      // TODO 01: make the http request
+      const { data } = await axios.post(`${baseURL}/users/register`, {
+        fullname,
+        email,
+        password,
+      });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
