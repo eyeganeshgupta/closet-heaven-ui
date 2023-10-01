@@ -106,3 +106,24 @@ export const updateUserShippingAddressAction = createAsyncThunk(
     }
   }
 );
+
+// ! get user profile action
+export const getUserProfileAction = createAsyncThunk(
+  "users/get-user-profile",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const token = getState()?.users?.userAuth?.userInfo?.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      // TODO: make http request
+      const { data } = await axios.get(`${baseURL}/users/profile`, config);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
