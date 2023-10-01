@@ -127,3 +127,126 @@ export const getUserProfileAction = createAsyncThunk(
     }
   }
 );
+
+// ! logout user action
+export const logoutUserAction = createAsyncThunk(
+  "users/logout",
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    localStorage.removeItem("userInfo");
+    return true;
+  }
+);
+
+// ! users slice
+const usersSlice = createSlice({
+  name: "users",
+  initialState,
+  extraReducers: (builder) => {
+    // * ----- handle login lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(loginUserAction.pending, (state) => {
+      state.userAuth.loading = true;
+      state.userAuth.userInfo = null;
+      state.userAuth.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(loginUserAction.fulfilled, (state, action) => {
+      state.userAuth.loading = false;
+      state.userAuth.userInfo = action.payload;
+      state.userAuth.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(loginUserAction.rejected, (state, action) => {
+      state.userAuth.loading = false;
+      state.userAuth.userInfo = null;
+      state.userAuth.error = action.payload;
+    });
+
+    // * ----- handle register lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(registerUserAction.pending, (state) => {
+      state.loading = true;
+      state.user = null;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(registerUserAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(registerUserAction.rejected, (state, action) => {
+      state.loading = false;
+      state.user = null;
+      state.error = action.payload;
+    });
+
+    // * ----- handle update shipping address lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(updateUserShippingAddressAction.pending, (state) => {
+      state.loading = true;
+    });
+
+    // ? fulfilled
+    builder.addCase(
+      updateUserShippingAddressAction.fulfilled,
+      (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      }
+    );
+
+    // ? rejected
+    builder.addCase(
+      updateUserShippingAddressAction.rejected,
+      (state, action) => {
+        state.loading = false;
+        state.user = null;
+        state.error = action.payload;
+      }
+    );
+
+    // * ----- handle get profile lifecycle - pending, fulfilled, rejected -----
+    // ? pending
+    builder.addCase(getUserProfileAction.pending, (state) => {
+      state.loading = true;
+      state.profile = null;
+      state.error = null;
+    });
+
+    // ? fulfilled
+    builder.addCase(getUserProfileAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.profile = action.payload;
+      state.error = null;
+    });
+
+    // ? rejected
+    builder.addCase(getUserProfileAction.rejected, (state, action) => {
+      state.loading = false;
+      state.profile = null;
+      state.error = action.payload;
+    });
+
+    // ! ----- handle logout user -----
+    builder.addCase(logoutUserAction.fulfilled, (state, action) => {
+      state.userAuth.userInfo = null;
+    });
+
+    // * ----- reset error action -----
+    builder.addCase(resetErrorAction.pending, (state) => {
+      state.error = null;
+    });
+  },
+});
+
+// TODO: generate reducer
+const usersReducer = usersSlice.reducer;
+
+export default usersReducer;
