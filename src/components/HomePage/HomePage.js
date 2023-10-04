@@ -10,7 +10,7 @@ const offers = [
   },
   {
     name: "Return when you're ready",
-    description: "60 days of free returns",
+    description: "18 days of free returns",
     href: "#",
   },
   {
@@ -166,7 +166,18 @@ export default function Example() {
           </div>
           {/* home categories */}
           <HomeCategories />
+          {/* Browse all categories option for small devices */}
+          <div className="mt-3 ml-4 sm:hidden">
+            <Link
+              to="/all-categories"
+              className="text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block"
+            >
+              Browse all categories
+              <span aria-hidden="true"> &rarr;</span>
+            </Link>
+          </div>
         </section>
+
         {/* Home trending trending */}
         <HomeProductTrending />
 

@@ -18,7 +18,7 @@ const HomeCategories = () => {
     return state?.categories;
   });
 
-  const categoriesToShow = categories?.slice(0, 4);
+  const categoriesToShow = categories?.slice(0, 5);
 
   return (
     <>
