@@ -39,6 +39,7 @@ const HomeProductTrending = () => {
             >
               Trending Products
             </h2>
+            {/*
             <a
               href="#"
               className="hidden text-sm font-medium text-indigo-600 hover:text-indigo-500 md:block"
@@ -46,10 +47,11 @@ const HomeProductTrending = () => {
               Shop the collection
               <span aria-hidden="true"> &rarr;</span>
             </a>
+            */}
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-0 lg:gap-x-8">
-            {products?.map((product) => (
+            {products?.slice(0, 4)?.map((product) => (
               <Link
                 to={`/products/${product._id}`}
                 key={product._id}
@@ -76,6 +78,7 @@ const HomeProductTrending = () => {
             ))}
           </div>
 
+          {/*
           <div className="mt-8 text-sm md:hidden">
             <a
               href="#"
@@ -84,7 +87,7 @@ const HomeProductTrending = () => {
               Shop the collection
               <span aria-hidden="true"> &rarr;</span>
             </a>
-          </div>
+          </div>*/}
         </div>
       </section>
     </>
