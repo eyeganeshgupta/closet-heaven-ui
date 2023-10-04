@@ -130,10 +130,10 @@ export default function Product() {
   return (
     <div className="bg-white">
       <main className="mx-auto mt-8 max-w-2xl px-4 pb-16 sm:px-6 sm:pb-24 lg:max-w-7xl lg:px-8">
-        <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 md:pt-24">
-          <div className="lg:col-span-5 lg:col-start-8">
-            <div className="flex justify-between">
-              <h1 className="text-xl font-medium text-gray-900">
+        <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 md:pt-24 md:auto-rows-min md:grid-cols-12 sm:grid-cols-12">
+          <div className="lg:col-span-5 lg:col-start-8 hidden md:block">
+            <div>
+              <h1 className="text-xl font-medium text-gray-900 mb-2">
                 {product?.name}
               </h1>
               <p className="text-xl font-medium text-gray-900">
@@ -141,7 +141,7 @@ export default function Product() {
               </p>
             </div>
             {/* Reviews */}
-            <div className="mt-4">
+            <div className="md:mt-4 lg:mt-4 hidden md:block">
               <h2 className="sr-only">Reviews</h2>
               <div className="flex items-center">
                 <p className="text-sm text-gray-700">
@@ -186,11 +186,11 @@ export default function Product() {
             </div>
           </div>
 
-          {/* Image gallery */}
+          {/* Image gallery for large screen */}
           <div className="lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1">
             <h2 className="sr-only">Images</h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 lg:gap-8">
               {product?.images?.map((image) => (
                 <img
                   key={image}
@@ -204,6 +204,78 @@ export default function Product() {
                   )}
                 />
               ))}
+            </div>
+          </div>
+
+          {/* Image gallery for small screen */}
+          <div className="sm:col-span-12 lg:hidden mt-30 md:mt-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 md:gap-6">
+              {product?.images?.map((image) => (
+                <img
+                  key={image}
+                  src={image}
+                  alt={image}
+                  className="rounded block mt-5 md:mt-0"
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* product name and price for small screen */}
+          <div className="col-span-12 md:hidden lg:hidden mt-5">
+            <h1 className="text-xl font-medium text-gray-900 mb-2">
+              {product?.name}
+            </h1>
+            <p className="text-xl font-medium text-gray-900">
+              ₹ {product?.price}.00
+            </p>
+          </div>
+
+          {/* review for small screen */}
+          <div className="col-span-12 md:hidden lg:hidden mt-5">
+            <div className="">
+              <h2 className="sr-only">Reviews</h2>
+              <div className="flex items-center">
+                <p className="text-sm text-gray-700">
+                  {product?.reviews?.length > 0 ? product?.averageRating : 0}
+                </p>
+                <div className="ml-1 flex items-center">
+                  {[0, 1, 2, 3, 4].map((rating) => (
+                    <StarIcon
+                      key={rating}
+                      className={classNames(
+                        +product?.averageRating > rating
+                          ? "text-yellow-400"
+                          : "text-gray-200",
+                        "h-5 w-5 flex-shrink-0"
+                      )}
+                      aria-hidden="true"
+                    />
+                  ))}
+                </div>
+                <div
+                  aria-hidden="true"
+                  className="ml-4 text-sm text-gray-300"
+                ></div>
+                <div className="ml-4 flex">
+                  <a
+                    href="#"
+                    className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                  >
+                    {product?.totalReviews} total reviews
+                  </a>
+                </div>
+              </div>
+
+              {/* leave a review for small screen */}
+
+              <div className="mt-4">
+                <Link to={`/add-review/${product?._id}`}>
+                  <h3 className="text-sm font-medium text-blue-600">
+                    Leave a review
+                  </h3>
+                </Link>
+              </div>
             </div>
           </div>
 
