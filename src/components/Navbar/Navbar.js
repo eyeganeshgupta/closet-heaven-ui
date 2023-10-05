@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import baseURL from "../../utils/baseURL";
-import logo from "./logo3.png";
+import logo from "./logo2.png";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategoriesAction } from "../../redux/slices/categories/categoriesSlice";
 import { getCartItemsFromLocalStorageAction } from "../../redux/slices/cart/cartSlice";
