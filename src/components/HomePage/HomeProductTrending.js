@@ -71,9 +71,16 @@ const HomeProductTrending = () => {
                 <p className="mt-1 text-sm font-medium text-gray-900">
                   ₹{product?.price}.00
                 </p>
+                {/* 
                 <p className="mt-1 text-sm text-gray-500">
-                  {product?.description}
+                  {product?.description?.indexOf(".") > -1
+                    ? product?.description?.slice(
+                        0,
+                        product?.description?.indexOf(".")
+                      )
+                    : product?.description}
                 </p>
+                */}
               </Link>
             ))}
           </div>

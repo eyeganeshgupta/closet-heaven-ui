@@ -41,8 +41,8 @@ export default function ManageStocks() {
             Product List- [{products?.length}]{" "}
           </h1>
           <p className="mt-2 text-sm text-gray-700">
-            List of all the products in your account including their name,
-            title,
+            List of all the products in your account including their name, title
+            and quantity
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
