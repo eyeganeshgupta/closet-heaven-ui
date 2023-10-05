@@ -20,16 +20,29 @@ const AllCategories = () => {
 
   return (
     <>
-      <div className="bg-white mt-28 md:mt-16">
-        <div className="mx-auto max-w-7xl py-12 px-4 text-center sm:px-6 lg:py-12 lg:pb-1 lg:px-8">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            <span className="block">
-              Total Categories [{categories?.length}]
-            </span>
-          </h2>
-          <p>Browse our categories and find the best products for you.</p>
+      {localStorage.getItem("userInfo") ? (
+        <div className="bg-white mt-28 md:mt-16">
+          <div className="mx-auto max-w-7xl py-12 px-4 text-center sm:px-6 lg:py-12 lg:pb-1 lg:px-8">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <span className="block">
+                Total Categories [{categories?.length}]
+              </span>
+            </h2>
+            <p>Browse our categories and find the best products for you.</p>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="bg-white mt-28 md:mt-30">
+          <div className="mx-auto max-w-7xl py-12 px-4 text-center sm:px-6 lg:py-12 lg:pb-1 lg:px-8">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              <span className="block">
+                Total Categories [{categories?.length}]
+              </span>
+            </h2>
+            <p>Browse our categories and find the best products for you.</p>
+          </div>
+        </div>
+      )}
       <div className="mt-4 flow-root">
         <div className="-my-2">
           <div className="relative box-content h-80 overflow-x-auto py-2 xl:overflow-visible">
