@@ -130,9 +130,100 @@ export default function Product() {
   return (
     <div className="bg-white">
       <main className="mx-auto mt-8 max-w-2xl px-4 pb-16 sm:px-6 sm:pb-24 lg:max-w-7xl lg:px-8">
-        <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 md:pt-24 md:auto-rows-min md:grid-cols-12 sm:grid-cols-12">
-          <div className="lg:col-span-5 lg:col-start-8 hidden md:block">
-            <div>
+        {localStorage.getItem("userInfo") ? (
+          <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 md:pt-24 md:auto-rows-min md:grid-cols-12 sm:grid-cols-12">
+            <div className="lg:col-span-5 lg:col-start-8 hidden md:block">
+              <div>
+                <h1 className="text-xl font-medium text-gray-900 mb-2">
+                  {product?.name}
+                </h1>
+                <p className="text-xl font-medium text-gray-900">
+                  ₹ {product?.price}.00
+                </p>
+              </div>
+              {/* Reviews */}
+              <div className="md:mt-4 lg:mt-4 hidden md:block">
+                <h2 className="sr-only">Reviews</h2>
+                <div className="flex items-center">
+                  <p className="text-sm text-gray-700">
+                    {product?.reviews?.length > 0 ? product?.averageRating : 0}
+                  </p>
+                  <div className="ml-1 flex items-center">
+                    {[0, 1, 2, 3, 4].map((rating) => (
+                      <StarIcon
+                        key={rating}
+                        className={classNames(
+                          +product?.averageRating > rating
+                            ? "text-yellow-400"
+                            : "text-gray-200",
+                          "h-5 w-5 flex-shrink-0"
+                        )}
+                        aria-hidden="true"
+                      />
+                    ))}
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    className="ml-4 text-sm text-gray-300"
+                  ></div>
+                  <div className="ml-4 flex">
+                    <a
+                      href="#"
+                      className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                    >
+                      {product?.totalReviews} total reviews
+                    </a>
+                  </div>
+                </div>
+                {/* leave a review */}
+
+                <div className="mt-4">
+                  <Link to={`/add-review/${product?._id}`}>
+                    <h3 className="text-sm font-medium text-blue-600">
+                      Leave a review
+                    </h3>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Image gallery for large screen */}
+            <div className="lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1">
+              <h2 className="sr-only">Images</h2>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 lg:gap-8">
+                {product?.images?.map((image) => (
+                  <img
+                    key={image}
+                    src={image}
+                    alt={image}
+                    className={classNames(
+                      image.primary
+                        ? "lg:col-span-2 lg:row-span-2"
+                        : "hidden lg:block",
+                      "rounded-lg"
+                    )}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Image gallery for small screen */}
+            <div className="sm:col-span-12 lg:hidden mt-30 md:mt-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 md:gap-6">
+                {product?.images?.map((image) => (
+                  <img
+                    key={image}
+                    src={image}
+                    alt={image}
+                    className="rounded block mt-5 md:mt-0"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* product name and price for small screen */}
+            <div className="col-span-12 md:hidden lg:hidden mt-5">
               <h1 className="text-xl font-medium text-gray-900 mb-2">
                 {product?.name}
               </h1>
@@ -140,280 +231,486 @@ export default function Product() {
                 ₹ {product?.price}.00
               </p>
             </div>
-            {/* Reviews */}
-            <div className="md:mt-4 lg:mt-4 hidden md:block">
-              <h2 className="sr-only">Reviews</h2>
-              <div className="flex items-center">
-                <p className="text-sm text-gray-700">
-                  {product?.reviews?.length > 0 ? product?.averageRating : 0}
-                </p>
-                <div className="ml-1 flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
-                    <StarIcon
-                      key={rating}
-                      className={classNames(
-                        +product?.averageRating > rating
-                          ? "text-yellow-400"
-                          : "text-gray-200",
-                        "h-5 w-5 flex-shrink-0"
-                      )}
-                      aria-hidden="true"
-                    />
-                  ))}
+
+            {/* review for small screen */}
+            <div className="col-span-12 md:hidden lg:hidden mt-5">
+              <div className="">
+                <h2 className="sr-only">Reviews</h2>
+                <div className="flex items-center">
+                  <p className="text-sm text-gray-700">
+                    {product?.reviews?.length > 0 ? product?.averageRating : 0}
+                  </p>
+                  <div className="ml-1 flex items-center">
+                    {[0, 1, 2, 3, 4].map((rating) => (
+                      <StarIcon
+                        key={rating}
+                        className={classNames(
+                          +product?.averageRating > rating
+                            ? "text-yellow-400"
+                            : "text-gray-200",
+                          "h-5 w-5 flex-shrink-0"
+                        )}
+                        aria-hidden="true"
+                      />
+                    ))}
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    className="ml-4 text-sm text-gray-300"
+                  ></div>
+                  <div className="ml-4 flex">
+                    <a
+                      href="#"
+                      className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                    >
+                      {product?.totalReviews} total reviews
+                    </a>
+                  </div>
                 </div>
-                <div
-                  aria-hidden="true"
-                  className="ml-4 text-sm text-gray-300"
-                ></div>
-                <div className="ml-4 flex">
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+
+                {/* leave a review for small screen */}
+
+                <div className="mt-4">
+                  <Link to={`/add-review/${product?._id}`}>
+                    <h3 className="text-sm font-medium text-blue-600">
+                      Leave a review
+                    </h3>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 lg:col-span-5">
+              <>
+                {/* Color picker */}
+                <div>
+                  <h2 className="text-sm font-medium text-gray-900">Color</h2>
+                  <div className="flex items-center space-x-3">
+                    <RadioGroup
+                      value={selectedColor}
+                      onChange={setSelectedColor}
+                    >
+                      <div className="mt-4 flex items-center space-x-3">
+                        {product?.colors?.map((color) => (
+                          <RadioGroup.Option
+                            key={color}
+                            value={color}
+                            className={({ active, checked }) =>
+                              classNames(
+                                active && checked ? "ring ring-offset-1" : "",
+                                !active && checked ? "ring-2" : "",
+                                "-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none"
+                              )
+                            }
+                          >
+                            <RadioGroup.Label as="span" className="sr-only">
+                              {color}
+                            </RadioGroup.Label>
+                            <span
+                              style={{ backgroundColor: color.toLowerCase() }}
+                              aria-hidden="true"
+                              className={classNames(
+                                "h-8 w-8 border border-black border-opacity-10 rounded-full"
+                              )}
+                            />
+                          </RadioGroup.Option>
+                        ))}
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </div>
+
+                {/* Size picker */}
+                <div className="mt-8">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-sm font-medium text-gray-900">Size</h2>
+                  </div>
+                  <RadioGroup
+                    value={selectedSize}
+                    onChange={setSelectedSize}
+                    className="mt-2"
                   >
-                    {product?.totalReviews} total reviews
-                  </a>
-                </div>
-              </div>
-              {/* leave a review */}
-
-              <div className="mt-4">
-                <Link to={`/add-review/${product?._id}`}>
-                  <h3 className="text-sm font-medium text-blue-600">
-                    Leave a review
-                  </h3>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Image gallery for large screen */}
-          <div className="lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1">
-            <h2 className="sr-only">Images</h2>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 lg:gap-8">
-              {product?.images?.map((image) => (
-                <img
-                  key={image}
-                  src={image}
-                  alt={image}
-                  className={classNames(
-                    image.primary
-                      ? "lg:col-span-2 lg:row-span-2"
-                      : "hidden lg:block",
-                    "rounded-lg"
-                  )}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Image gallery for small screen */}
-          <div className="sm:col-span-12 lg:hidden mt-30 md:mt-3">
-            <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 md:gap-6">
-              {product?.images?.map((image) => (
-                <img
-                  key={image}
-                  src={image}
-                  alt={image}
-                  className="rounded block mt-5 md:mt-0"
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* product name and price for small screen */}
-          <div className="col-span-12 md:hidden lg:hidden mt-5">
-            <h1 className="text-xl font-medium text-gray-900 mb-2">
-              {product?.name}
-            </h1>
-            <p className="text-xl font-medium text-gray-900">
-              ₹ {product?.price}.00
-            </p>
-          </div>
-
-          {/* review for small screen */}
-          <div className="col-span-12 md:hidden lg:hidden mt-5">
-            <div className="">
-              <h2 className="sr-only">Reviews</h2>
-              <div className="flex items-center">
-                <p className="text-sm text-gray-700">
-                  {product?.reviews?.length > 0 ? product?.averageRating : 0}
-                </p>
-                <div className="ml-1 flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
-                    <StarIcon
-                      key={rating}
-                      className={classNames(
-                        +product?.averageRating > rating
-                          ? "text-yellow-400"
-                          : "text-gray-200",
-                        "h-5 w-5 flex-shrink-0"
-                      )}
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-                <div
-                  aria-hidden="true"
-                  className="ml-4 text-sm text-gray-300"
-                ></div>
-                <div className="ml-4 flex">
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    {product?.totalReviews} total reviews
-                  </a>
-                </div>
-              </div>
-
-              {/* leave a review for small screen */}
-
-              <div className="mt-4">
-                <Link to={`/add-review/${product?._id}`}>
-                  <h3 className="text-sm font-medium text-blue-600">
-                    Leave a review
-                  </h3>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 lg:col-span-5">
-            <>
-              {/* Color picker */}
-              <div>
-                <h2 className="text-sm font-medium text-gray-900">Color</h2>
-                <div className="flex items-center space-x-3">
-                  <RadioGroup value={selectedColor} onChange={setSelectedColor}>
-                    <div className="mt-4 flex items-center space-x-3">
-                      {product?.colors?.map((color) => (
+                    {/* Choose size */}
+                    <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+                      {product?.sizes?.map((size) => (
                         <RadioGroup.Option
-                          key={color}
-                          value={color}
-                          className={({ active, checked }) =>
-                            classNames(
-                              active && checked ? "ring ring-offset-1" : "",
-                              !active && checked ? "ring-2" : "",
-                              "-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none"
-                            )
-                          }
+                          key={size}
+                          value={size}
+                          className={({ active, checked }) => {
+                            return classNames(
+                              checked
+                                ? "bg-indigo-600 border-transparent  text-white hover:bg-indigo-700"
+                                : "bg-white border-gray-200 text-gray-900 hover:bg-gray-50",
+                              "border rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer"
+                            );
+                          }}
                         >
-                          <RadioGroup.Label as="span" className="sr-only">
-                            {color}
-                          </RadioGroup.Label>
-                          <span
-                            style={{ backgroundColor: color.toLowerCase() }}
-                            aria-hidden="true"
-                            className={classNames(
-                              "h-8 w-8 border border-black border-opacity-10 rounded-full"
-                            )}
-                          />
+                          <RadioGroup.Label as="span">{size}</RadioGroup.Label>
                         </RadioGroup.Option>
                       ))}
                     </div>
                   </RadioGroup>
                 </div>
+                {/* add to cart */}
+                {product?.qtyLeft <= 0 ? (
+                  <button
+                    disabled
+                    style={{ cursor: "not-allowed" }}
+                    className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-600 py-3 px-8 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    Out of stock
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => addToCartHandler()}
+                    className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    Add to cart
+                  </button>
+                )}
+                {/* proceed to check */}
+
+                {cartItems.length > 0 && (
+                  <Link
+                    to="/shopping-cart"
+                    className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-green-800 py-3 px-8 text-base font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    Proceed to checkout
+                  </Link>
+                )}
+              </>
+
+              {/* Product details */}
+              <div className="mt-10">
+                <h2 className="text-sm font-medium text-gray-900">
+                  Description
+                </h2>
+                <div className="prose prose-sm mt-4 text-gray-500">
+                  {product?.description}
+                </div>
               </div>
 
-              {/* Size picker */}
-              <div className="mt-8">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-medium text-gray-900">Size</h2>
-                </div>
-                <RadioGroup
-                  value={selectedSize}
-                  onChange={setSelectedSize}
-                  className="mt-2"
-                >
-                  {/* Choose size */}
-                  <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
-                    {product?.sizes?.map((size) => (
-                      <RadioGroup.Option
-                        key={size}
-                        value={size}
-                        className={({ active, checked }) => {
-                          return classNames(
-                            checked
-                              ? "bg-indigo-600 border-transparent  text-white hover:bg-indigo-700"
-                              : "bg-white border-gray-200 text-gray-900 hover:bg-gray-50",
-                            "border rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer"
-                          );
-                        }}
-                      >
-                        <RadioGroup.Label as="span">{size}</RadioGroup.Label>
-                      </RadioGroup.Option>
+              {/* Policies */}
+              <section aria-labelledby="policies-heading" className="mt-10">
+                <h2 id="policies-heading" className="sr-only">
+                  Our Policies
+                </h2>
+
+                <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                  {policies.map((policy) => (
+                    <div
+                      key={policy.name}
+                      className="rounded-lg border border-gray-200 bg-gray-50 p-6 text-center"
+                    >
+                      <dt>
+                        <policy.icon
+                          className="mx-auto h-6 w-6 flex-shrink-0 text-gray-400"
+                          aria-hidden="true"
+                        />
+                        <span className="mt-4 text-sm font-medium text-gray-900">
+                          {policy.name}
+                        </span>
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-500">
+                        {policy.description}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            </div>
+          </div>
+        ) : (
+          <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8 md:pt-24 lg:pt-32 md:auto-rows-min md:grid-cols-12 sm:grid-cols-12">
+            <div className="lg:col-span-5 lg:col-start-8 hidden md:block">
+              <div>
+                <h1 className="text-xl font-medium text-gray-900 mb-2">
+                  {product?.name}
+                </h1>
+                <p className="text-xl font-medium text-gray-900">
+                  ₹ {product?.price}.00
+                </p>
+              </div>
+              {/* Reviews */}
+              <div className="md:mt-4 lg:mt-4 hidden md:block">
+                <h2 className="sr-only">Reviews</h2>
+                <div className="flex items-center">
+                  <p className="text-sm text-gray-700">
+                    {product?.reviews?.length > 0 ? product?.averageRating : 0}
+                  </p>
+                  <div className="ml-1 flex items-center">
+                    {[0, 1, 2, 3, 4].map((rating) => (
+                      <StarIcon
+                        key={rating}
+                        className={classNames(
+                          +product?.averageRating > rating
+                            ? "text-yellow-400"
+                            : "text-gray-200",
+                          "h-5 w-5 flex-shrink-0"
+                        )}
+                        aria-hidden="true"
+                      />
                     ))}
                   </div>
-                </RadioGroup>
-              </div>
-              {/* add to cart */}
-              {product?.qtyLeft <= 0 ? (
-                <button
-                  disabled
-                  style={{ cursor: "not-allowed" }}
-                  className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-600 py-3 px-8 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  Out of stock
-                </button>
-              ) : (
-                <button
-                  onClick={() => addToCartHandler()}
-                  className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  Add to cart
-                </button>
-              )}
-              {/* proceed to check */}
+                  <div
+                    aria-hidden="true"
+                    className="ml-4 text-sm text-gray-300"
+                  ></div>
+                  <div className="ml-4 flex">
+                    <a
+                      href="#"
+                      className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                    >
+                      {product?.totalReviews} total reviews
+                    </a>
+                  </div>
+                </div>
+                {/* leave a review */}
 
-              {cartItems.length > 0 && (
-                <Link
-                  to="/shopping-cart"
-                  className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-green-800 py-3 px-8 text-base font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  Proceed to checkout
-                </Link>
-              )}
-            </>
-
-            {/* Product details */}
-            <div className="mt-10">
-              <h2 className="text-sm font-medium text-gray-900">Description</h2>
-              <div className="prose prose-sm mt-4 text-gray-500">
-                {product?.description}
+                <div className="mt-4">
+                  <Link to={`/add-review/${product?._id}`}>
+                    <h3 className="text-sm font-medium text-blue-600">
+                      Leave a review
+                    </h3>
+                  </Link>
+                </div>
               </div>
             </div>
 
-            {/* Policies */}
-            <section aria-labelledby="policies-heading" className="mt-10">
-              <h2 id="policies-heading" className="sr-only">
-                Our Policies
-              </h2>
+            {/* Image gallery for large screen */}
+            <div className="lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start-1">
+              <h2 className="sr-only">Images</h2>
 
-              <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                {policies.map((policy) => (
-                  <div
-                    key={policy.name}
-                    className="rounded-lg border border-gray-200 bg-gray-50 p-6 text-center"
-                  >
-                    <dt>
-                      <policy.icon
-                        className="mx-auto h-6 w-6 flex-shrink-0 text-gray-400"
+              <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 lg:gap-8">
+                {product?.images?.map((image) => (
+                  <img
+                    key={image}
+                    src={image}
+                    alt={image}
+                    className={classNames(
+                      image.primary
+                        ? "lg:col-span-2 lg:row-span-2"
+                        : "hidden lg:block",
+                      "rounded-lg"
+                    )}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Image gallery for small screen */}
+            <div className="sm:col-span-12 lg:hidden mt-30 md:mt-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 md:gap-6">
+                {product?.images?.map((image) => (
+                  <img
+                    key={image}
+                    src={image}
+                    alt={image}
+                    className="rounded block mt-5 md:mt-0"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* product name and price for small screen */}
+            <div className="col-span-12 md:hidden lg:hidden mt-5">
+              <h1 className="text-xl font-medium text-gray-900 mb-2">
+                {product?.name}
+              </h1>
+              <p className="text-xl font-medium text-gray-900">
+                ₹ {product?.price}.00
+              </p>
+            </div>
+
+            {/* review for small screen */}
+            <div className="col-span-12 md:hidden lg:hidden mt-5">
+              <div className="">
+                <h2 className="sr-only">Reviews</h2>
+                <div className="flex items-center">
+                  <p className="text-sm text-gray-700">
+                    {product?.reviews?.length > 0 ? product?.averageRating : 0}
+                  </p>
+                  <div className="ml-1 flex items-center">
+                    {[0, 1, 2, 3, 4].map((rating) => (
+                      <StarIcon
+                        key={rating}
+                        className={classNames(
+                          +product?.averageRating > rating
+                            ? "text-yellow-400"
+                            : "text-gray-200",
+                          "h-5 w-5 flex-shrink-0"
+                        )}
                         aria-hidden="true"
                       />
-                      <span className="mt-4 text-sm font-medium text-gray-900">
-                        {policy.name}
-                      </span>
-                    </dt>
-                    <dd className="mt-1 text-sm text-gray-500">
-                      {policy.description}
-                    </dd>
+                    ))}
                   </div>
-                ))}
-              </dl>
-            </section>
+                  <div
+                    aria-hidden="true"
+                    className="ml-4 text-sm text-gray-300"
+                  ></div>
+                  <div className="ml-4 flex">
+                    <a
+                      href="#"
+                      className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                    >
+                      {product?.totalReviews} total reviews
+                    </a>
+                  </div>
+                </div>
+
+                {/* leave a review for small screen */}
+
+                <div className="mt-4">
+                  <Link to={`/add-review/${product?._id}`}>
+                    <h3 className="text-sm font-medium text-blue-600">
+                      Leave a review
+                    </h3>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 lg:col-span-5">
+              <>
+                {/* Color picker */}
+                <div>
+                  <h2 className="text-sm font-medium text-gray-900">Color</h2>
+                  <div className="flex items-center space-x-3">
+                    <RadioGroup
+                      value={selectedColor}
+                      onChange={setSelectedColor}
+                    >
+                      <div className="mt-4 flex items-center space-x-3">
+                        {product?.colors?.map((color) => (
+                          <RadioGroup.Option
+                            key={color}
+                            value={color}
+                            className={({ active, checked }) =>
+                              classNames(
+                                active && checked ? "ring ring-offset-1" : "",
+                                !active && checked ? "ring-2" : "",
+                                "-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none"
+                              )
+                            }
+                          >
+                            <RadioGroup.Label as="span" className="sr-only">
+                              {color}
+                            </RadioGroup.Label>
+                            <span
+                              style={{ backgroundColor: color.toLowerCase() }}
+                              aria-hidden="true"
+                              className={classNames(
+                                "h-8 w-8 border border-black border-opacity-10 rounded-full"
+                              )}
+                            />
+                          </RadioGroup.Option>
+                        ))}
+                      </div>
+                    </RadioGroup>
+                  </div>
+                </div>
+
+                {/* Size picker */}
+                <div className="mt-8">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-sm font-medium text-gray-900">Size</h2>
+                  </div>
+                  <RadioGroup
+                    value={selectedSize}
+                    onChange={setSelectedSize}
+                    className="mt-2"
+                  >
+                    {/* Choose size */}
+                    <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+                      {product?.sizes?.map((size) => (
+                        <RadioGroup.Option
+                          key={size}
+                          value={size}
+                          className={({ active, checked }) => {
+                            return classNames(
+                              checked
+                                ? "bg-indigo-600 border-transparent  text-white hover:bg-indigo-700"
+                                : "bg-white border-gray-200 text-gray-900 hover:bg-gray-50",
+                              "border rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1 cursor-pointer"
+                            );
+                          }}
+                        >
+                          <RadioGroup.Label as="span">{size}</RadioGroup.Label>
+                        </RadioGroup.Option>
+                      ))}
+                    </div>
+                  </RadioGroup>
+                </div>
+                {/* add to cart */}
+                {product?.qtyLeft <= 0 ? (
+                  <button
+                    disabled
+                    style={{ cursor: "not-allowed" }}
+                    className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-600 py-3 px-8 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    Out of stock
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => addToCartHandler()}
+                    className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    Add to cart
+                  </button>
+                )}
+                {/* proceed to check */}
+
+                {cartItems.length > 0 && (
+                  <Link
+                    to="/shopping-cart"
+                    className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-green-800 py-3 px-8 text-base font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    Proceed to checkout
+                  </Link>
+                )}
+              </>
+
+              {/* Product details */}
+              <div className="mt-10">
+                <h2 className="text-sm font-medium text-gray-900">
+                  Description
+                </h2>
+                <div className="prose prose-sm mt-4 text-gray-500">
+                  {product?.description}
+                </div>
+              </div>
+
+              {/* Policies */}
+              <section aria-labelledby="policies-heading" className="mt-10">
+                <h2 id="policies-heading" className="sr-only">
+                  Our Policies
+                </h2>
+
+                <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                  {policies.map((policy) => (
+                    <div
+                      key={policy.name}
+                      className="rounded-lg border border-gray-200 bg-gray-50 p-6 text-center"
+                    >
+                      <dt>
+                        <policy.icon
+                          className="mx-auto h-6 w-6 flex-shrink-0 text-gray-400"
+                          aria-hidden="true"
+                        />
+                        <span className="mt-4 text-sm font-medium text-gray-900">
+                          {policy.name}
+                        </span>
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-500">
+                        {policy.description}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Reviews */}
         <section aria-labelledby="reviews-heading" className="mt-16 sm:mt-24">
