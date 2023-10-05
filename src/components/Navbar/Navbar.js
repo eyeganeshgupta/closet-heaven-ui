@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import baseURL from "../../utils/baseURL";
-import logo from "./logo2.png";
+import logo from "./logo3.png";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCategoriesAction } from "../../redux/slices/categories/categoriesSlice";
 import { getCartItemsFromLocalStorageAction } from "../../redux/slices/cart/cartSlice";
@@ -215,7 +215,7 @@ export default function Navbar() {
           )}
 
           {!isLoggedIn && (
-            <div className="bg-gray-800">
+            <div className="bg-gray-800 hidden lg:block">
               <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 {/*
               <p className="flex-1 text-center text-sm font-medium text-white lg:flex-none">
@@ -261,7 +261,7 @@ export default function Navbar() {
                       <img
                         className="pt-2 w-auto h-16"
                         src={logo}
-                        alt="closet-haven-logo"
+                        alt="closet-heaven-logo"
                       />
                     </Link>
                   </div>
