@@ -13,7 +13,9 @@ const HomeCategories = () => {
 
   // TODO: get data from store
   const {
+    loading,
     categories: { categories },
+    error,
   } = useSelector((state) => {
     return state?.categories;
   });
