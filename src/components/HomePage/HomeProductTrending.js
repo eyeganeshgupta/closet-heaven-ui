@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { SphereSpinner } from "react-spinners-kit";
 import { fetchAllProductsAction } from "../../redux/slices/products/productsSlice";
 import baseURL from "../../utils/baseURL";
 
@@ -49,6 +50,12 @@ const HomeProductTrending = () => {
             </a>
             */}
           </div>
+
+          {loading && (
+            <div className="flex items-center justify-center mt-3 md:mt-7">
+              <SphereSpinner size={45} color="#686769" loading={loading} />
+            </div>
+          )}
 
           <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-0 lg:gap-x-8">
             {products?.slice(0, 4)?.map((product) => (
