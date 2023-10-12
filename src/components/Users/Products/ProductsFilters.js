@@ -7,7 +7,7 @@ import {
   Transition,
   RadioGroup,
 } from "@headlessui/react";
-
+import { ClapSpinner } from "react-spinners-kit";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
@@ -861,7 +861,9 @@ export default function ProductsFilters() {
 
               {/* Product grid */}
               {loading ? (
-                <LoadingComponent />
+                <div className="flex items-center justify-center">
+                  <ClapSpinner size={80} color="#686769" loading={loading} />
+                </div>
               ) : error ? (
                 <ErrorMsg message={error.message} />
               ) : products?.length <= 0 ? (
