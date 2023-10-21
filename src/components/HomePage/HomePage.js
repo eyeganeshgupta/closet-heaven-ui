@@ -88,7 +88,7 @@ export default function Example() {
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:grid lg:grid-cols-2 lg:px-8">
                 <div className="mx-auto max-w-2xl py-24 lg:max-w-none lg:py-64">
                   <div className="lg:pr-16">
-                    <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl xl:text-6xl">
+                    <h1 className="text-4xl font-bold tracking-tight mt-5 text-gray-900 sm:text-5xl xl:text-6xl">
                       Shop with confidence
                     </h1>
                     <p className="mt-4 text-xl text-gray-600">
