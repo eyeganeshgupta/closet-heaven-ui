@@ -328,7 +328,7 @@ export default function Navbar() {
                     <img
                       className="h-16 mt-2 w-auto"
                       src={logo}
-                      alt="closet-haven-logo"
+                      alt="closet-heaven-logo"
                     />
                   </Link>
 
