@@ -47,7 +47,7 @@ const RegisterForm = () => {
           <div className="flex flex-wrap items-center">
             <div className="w-full lg:w-2/6 px-4 mb-12 lg:mb-0">
               <div className="py-20 text-center">
-                <h3 className="mb-8 border-8 text-4xl md:text-5xl font-bold font-heading">
+                <h3 className="mb-8 mt-16 md:mt-20 text-4xl md:text-5xl font-bold font-heading">
                   Signing up with social is super quick
                 </h3>
 
