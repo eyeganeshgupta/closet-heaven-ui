@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { TraceSpinner } from "react-spinners-kit";
 import { fetchAllCategoriesAction } from "../../redux/slices/categories/categoriesSlice";
 
 const HomeCategories = () => {
@@ -28,8 +27,19 @@ const HomeCategories = () => {
       <div className="mt-4 flow-root">
         <div className="-my-2">
           {loading ? (
-            <div className="flex items-center justify-center">
-              <TraceSpinner size={100} color="#686769" loading={loading} />
+            <div className="relative box-content h-80 overflow-x-auto py-2 xl:overflow-visible">
+              <div className="min-w-screen-xl absolute flex space-x-8 px-4 sm:px-6 lg:px-8 xl:relative xl:grid xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0">
+                {[...Array(5)].map((_, index) => (
+                  <div
+                    key={index}
+                    className="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 xl:w-auto bg-gray-200 animate-pulse"
+                  >
+                    <div className="absolute inset-0 h-full w-full bg-gray-300"></div>
+                    <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gray-400 opacity-50"></div>
+                    <div className="relative mt-auto h-6 bg-gray-300 w-3/4 mx-auto"></div>
+                  </div>
+                ))}
+              </div>
             </div>
           ) : (
             <div className="relative box-content h-80 overflow-x-auto py-2 xl:overflow-visible">

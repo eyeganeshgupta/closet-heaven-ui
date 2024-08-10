@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { TraceSpinner } from "react-spinners-kit";
 import { fetchAllProductsAction } from "../../redux/slices/products/productsSlice";
 import baseURL from "../../utils/baseURL";
 
@@ -52,8 +51,22 @@ const HomeProductTrending = () => {
           </div>
 
           {loading && (
-            <div className="flex items-center justify-center mt-3 md:mt-7">
-              <TraceSpinner size={45} color="#686769" loading={loading} />
+            <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-0 lg:gap-x-8">
+              {[...Array(4)].map((_, index) => (
+                <div key={index} className="group relative animate-pulse">
+                  <div className="h-56 w-full bg-gray-200 rounded-md lg:h-72 xl:h-80 overflow-hidden relative">
+                    <div
+                      className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200"
+                      style={{
+                        backgroundSize: "200% 100%",
+                        animation: "shimmer 1.5s infinite",
+                      }}
+                    ></div>
+                  </div>
+                  <div className="mt-4 h-4 bg-gray-200 rounded w-3/4"></div>
+                  <div className="mt-2 h-4 bg-gray-200 rounded w-1/2"></div>
+                </div>
+              ))}
             </div>
           )}
 

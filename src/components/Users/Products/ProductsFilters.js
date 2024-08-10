@@ -1,29 +1,27 @@
-import { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Dialog,
   Disclosure,
   Menu,
-  Transition,
   RadioGroup,
+  Transition,
 } from "@headlessui/react";
-import { PongSpinner, HoopSpinner, FlapperSpinner } from "react-spinners-kit";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   FunnelIcon,
   MinusIcon,
   PlusIcon,
 } from "@heroicons/react/20/solid";
-import Products from "./Products";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import baseURL from "../../../utils/baseURL";
-import { fetchAllProductsAction } from "../../../redux/slices/products/productsSlice";
 import { fetchAllBrandsAction } from "../../../redux/slices/brands/brandsSlice";
 import { fetchAllColorsAction } from "../../../redux/slices/colors/colorsSlice";
-import LoadingComponent from "../../LoadingComp/LoadingComponent";
+import { fetchAllProductsAction } from "../../../redux/slices/products/productsSlice";
+import baseURL from "../../../utils/baseURL";
 import ErrorMsg from "../../ErrorMsg/ErrorMsg";
 import NoDataFound from "../../NoDataFound/NoDataFound";
+import Products from "./Products";
 
 let largeScreenStyle = {};
 
@@ -861,8 +859,24 @@ export default function ProductsFilters() {
 
               {/* Product grid */}
               {loading ? (
-                <div className="flex items-center justify-center">
-                  <FlapperSpinner size={90} color="#686769" loading={loading} />
+                <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:col-span-3 lg:gap-x-8">
+                  {[...Array(10)].map((_, index) => (
+                    <div
+                      key={index}
+                      className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-100 animate-pulse"
+                    >
+                      <div className="relative bg-gray-50 h-64 w-full">
+                        <div className="absolute inset-0 bg-gray-300"></div>
+                      </div>
+
+                      <div className="px-6 pb-6 mt-8">
+                        <div className="block px-6 mb-2">
+                          <div className="mb-2 h-4 bg-gray-300 rounded w-3/4"></div>
+                          <div className="h-6 bg-gray-300 rounded w-1/2"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : error ? (
                 <ErrorMsg message={error.message} />
