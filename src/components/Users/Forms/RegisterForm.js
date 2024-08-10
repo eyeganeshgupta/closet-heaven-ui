@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUserAction } from "../../../redux/slices/users/usersSlice";
-import LoadingComponent from "../../LoadingComp/LoadingComponent";
 import ErrorMsg from "../../ErrorMsg/ErrorMsg";
+import LoadingComponent from "../../LoadingComp/LoadingComponent";
 
 const RegisterForm = () => {
   // ! dispatch
@@ -26,6 +26,9 @@ const RegisterForm = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     dispatch(registerUserAction({ fullname, email, password }));
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 2000);
   };
 
   // TODO: get data from the store

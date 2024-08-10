@@ -147,7 +147,7 @@ export default function OrdersStats() {
           <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
             <p className="text-2xl font-semibold text-gray-100">
               {" "}
-              ₹ {statistics[3]}
+              ₹ {Number(statistics[3]).toFixed(2)}
             </p>
 
             <div className="absolute inset-x-0 bottom-0 bg-pink-900 px-4 py-4 sm:px-6">

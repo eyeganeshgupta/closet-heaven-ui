@@ -1,14 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  PushSpinner,
-  CombSpinner,
-  DominoSpinner,
-  GuardSpinner,
-  CubeSpinner,
-  FireworkSpinner,
-} from "react-spinners-kit";
+import { TraceSpinner } from "react-spinners-kit";
 import { fetchAllCategoriesAction } from "../../redux/slices/categories/categoriesSlice";
 
 const HomeCategories = () => {
@@ -36,7 +29,7 @@ const HomeCategories = () => {
         <div className="-my-2">
           {loading ? (
             <div className="flex items-center justify-center">
-              <FireworkSpinner size={100} color="#686769" loading={loading} />
+              <TraceSpinner size={100} color="#686769" loading={loading} />
             </div>
           ) : (
             <div className="relative box-content h-80 overflow-x-auto py-2 xl:overflow-visible">

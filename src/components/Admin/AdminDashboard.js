@@ -1,21 +1,15 @@
-import { Fragment, useState } from "react";
-import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Link, Outlet } from "react-router-dom";
+import { Dialog, Transition } from "@headlessui/react";
 import {
   Bars3CenterLeftIcon,
-  BellIcon,
-  ClockIcon,
   CogIcon,
-  CreditCardIcon,
-  DocumentChartBarIcon,
-  HomeIcon,
   QuestionMarkCircleIcon,
   ScaleIcon,
-  ShieldCheckIcon,
-  UserGroupIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import logo from "../Navbar/logo3.png";
+import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Outlet } from "react-router-dom";
+import { getUserProfileAction } from "../../redux/slices/users/usersSlice";
 const ordersLinks = [
   {
     name: "Dashboard",
@@ -165,6 +159,20 @@ const brandsLinks = [
 
 export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // ! dispatch
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserProfileAction());
+  }, [dispatch]);
+
+  // TODO: get user from store
+  const user = useSelector((state) => {
+    return state?.users?.profile?.user;
+  });
+
+  console.log(user);
 
   return (
     <>
@@ -492,18 +500,18 @@ export default function AdminDashboard() {
                     <div className="flex items-center">
                       <img
                         className="hidden h-16 w-16 rounded-full sm:block"
-                        src="https://res.cloudinary.com/dzyf1vb6i/image/upload/v1694408370/GANESH_GUPTA.jpg"
+                        src="https://res.cloudinary.com/dzyf1vb6i/image/upload/v1723185841/blank-profile_eii8bk.png"
                         alt=""
                       />
                       <div>
                         <div className="flex items-center">
                           <img
                             className="h-16 w-16 rounded-full sm:hidden"
-                            src="https://res.cloudinary.com/dzyf1vb6i/image/upload/v1694408370/GANESH_GUPTA.jpg"
+                            src="https://res.cloudinary.com/dzyf1vb6i/image/upload/v1723185841/blank-profile_eii8bk.png"
                             alt=""
                           />
                           <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
-                            Hello, Ganesh Gupta
+                            Hello, {user?.fullname}
                           </h1>
                         </div>
                         <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
@@ -541,7 +549,11 @@ export default function AdminDashboard() {
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                               ></path>
                             </svg>
-                            Date Joined: 07/16/2023
+                            Date Joined:{" "}
+                            {new Date(user?.createdAt).toLocaleString(
+                              undefined,
+                              { timeZone: "Asia/Kolkata" }
+                            )}
                           </dd>
                           {/* email */}
                           <dd className="mt-3 flex items-center text-sm font-medium  text-gray-500 sm:mr-6 sm:mt-0">
@@ -559,7 +571,7 @@ export default function AdminDashboard() {
                                 d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
                               ></path>
                             </svg>
-                            ganeshgupta9762@gmail.com
+                            {user?.email}
                           </dd>
                         </dl>
                       </div>

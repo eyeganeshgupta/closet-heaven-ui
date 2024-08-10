@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUserAction } from "../../../redux/slices/users/usersSlice";
+import {
+  clearErrorAction,
+  loginUserAction,
+} from "../../../redux/slices/users/usersSlice";
 import ErrorMsg from "../../ErrorMsg/ErrorMsg";
 import LoadingComponent from "../../LoadingComp/LoadingComponent";
 
@@ -14,11 +17,19 @@ const Login = () => {
   });
 
   //---Destructuring---
-  const { email, password } = formData;
+  let { email, password } = formData;
+
+  // TODO: get data from store
+  let { loading, userInfo, error } = useSelector((state) => {
+    return state?.users?.userAuth;
+  });
 
   //---onchange handler----
   const onChangeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (error) {
+      dispatch(clearErrorAction()); // Clear the error when the user starts typing
+    }
   };
 
   //---onsubmit handler----
@@ -27,11 +38,6 @@ const Login = () => {
     dispatch(loginUserAction({ email, password }));
     // window.location.href = "/";
   };
-
-  // TODO: get data from store
-  const { loading, userInfo, error } = useSelector((state) => {
-    return state?.users?.userAuth;
-  });
 
   // TODO: redirect
   useEffect(() => {

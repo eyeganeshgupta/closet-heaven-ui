@@ -29,7 +29,7 @@ const Products = ({ products }) => {
                   <img
                     className="w-full h-64 object-cover"
                     src={product?.images[0]}
-                    alt
+                    alt={product?._id}
                   />
                 </Link>
 

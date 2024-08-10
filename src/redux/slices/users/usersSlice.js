@@ -141,6 +141,11 @@ export const logoutUserAction = createAsyncThunk(
 const usersSlice = createSlice({
   name: "users",
   initialState,
+  reducers: {
+    clearErrorAction: (state) => {
+      state.userAuth.error = null; // Reset error state
+    },
+  },
   extraReducers: (builder) => {
     // * ----- handle login lifecycle - pending, fulfilled, rejected -----
     // ? pending
@@ -160,7 +165,6 @@ const usersSlice = createSlice({
     // ? rejected
     builder.addCase(loginUserAction.rejected, (state, action) => {
       state.userAuth.loading = false;
-      state.userAuth.userInfo = null;
       state.userAuth.error = action.payload;
     });
 
@@ -247,6 +251,8 @@ const usersSlice = createSlice({
 });
 
 // TODO: generate reducer
+export const { clearErrorAction } = usersSlice.actions;
+
 const usersReducer = usersSlice.reducer;
 
 export default usersReducer;
