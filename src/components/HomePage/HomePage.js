@@ -126,9 +126,20 @@ const NewsletterForm = () => {
 };
 
 export default function EnhancedHomePage() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    setIsLoggedIn(user?.token ? true : false);
+  }, []);
+
+  const containerClass = `bg-gradient-to-b from-white to-gray-100 ${
+    !isLoggedIn ? "lg:mt-32" : "lg:mt-24"
+  }`;
+
   return (
     <motion.div
-      className="bg-gradient-to-b from-white to-gray-100"
+      className={containerClass}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -140,7 +151,7 @@ export default function EnhancedHomePage() {
             <div className="mx-auto max-w-7xl lg:px-8">
               <ul
                 role="list"
-                className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+                className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:mb-8"
               >
                 {offers.map((offer, index) => (
                   <motion.li

@@ -35,220 +35,82 @@ import CustomerProfile from "./components/Users/Profile/CustomerProfile";
 import AddReview from "./components/Users/Reviews/AddReview";
 
 const App = () => {
-  /*
-  // ! dispatch
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getUserProfileAction());
-  }, [dispatch]);
-
-  // TODO: get user from store
-  const { userAuth } = useSelector((state) => {
-    return state?.users;
-  });
-
-  const isAdmin = userAuth?.userInfo?.userFound?.isAdmin ? true : false;
-  */
-
   return (
     <BrowserRouter>
-      {/* hide navbar if admin
-      {!isAdmin && <Navbar />}
-  */}
       <Navbar />
       <Routes>
-        {/* admin route */}
+        {/* Admin Routes */}
         <Route
-          path="admin"
+          path="/admin"
           element={
             <AdminAuthRoute>
               <AdminDashboard />
             </AdminAuthRoute>
           }
         >
-          {/* products */}
-          <Route
-            path=""
-            element={
-              <AdminAuthRoute>
-                <OrdersList />
-              </AdminAuthRoute>
-            }
-          />
-          <Route
-            path="add-product"
-            element={
-              <AdminAuthRoute>
-                <AddProduct />
-              </AdminAuthRoute>
-            }
-          />
-          <Route
-            path="manage-products"
-            element={
-              <AdminAuthRoute>
-                <ManageStocks />
-              </AdminAuthRoute>
-            }
-          />
-          <Route
-            path="products/edit/:id"
-            element={
-              <AdminAuthRoute>
-                <UpdateProduct />
-              </AdminAuthRoute>
-            }
-          />
-          {/* coupons */}
-          <Route
-            path="add-coupon"
-            element={
-              <AdminAuthRoute>
-                <AddCoupon />
-              </AdminAuthRoute>
-            }
-          />
-          <Route
-            path="manage-coupon"
-            element={
-              <AdminAuthRoute>
-                <ManageCoupons />
-              </AdminAuthRoute>
-            }
-          />
-          <Route
-            path="manage-coupon/edit/:code"
-            element={
-              <AdminAuthRoute>
-                <UpdateCoupon />
-              </AdminAuthRoute>
-            }
-          />
-          {/* Category */}
-          <Route
-            path="category-to-add"
-            element={
-              <AdminAuthRoute>
-                <CategoryToAdd />
-              </AdminAuthRoute>
-            }
-          />{" "}
-          <Route
-            path="add-category"
-            element={
-              <AdminAuthRoute>
-                <AddCategory />
-              </AdminAuthRoute>
-            }
-          />
-          <Route
-            path="manage-category"
-            element={
-              <AdminAuthRoute>
-                <ManageCategories />
-              </AdminAuthRoute>
-            }
-          />
-          <Route
-            path="edit-category/:id"
-            element={
-              <AdminAuthRoute>
-                <UpdateCategory />
-              </AdminAuthRoute>
-            }
-          />
-          {/* brand category */}
-          <Route
-            path="add-brand"
-            element={
-              <AdminAuthRoute>
-                <AddBrand />
-              </AdminAuthRoute>
-            }
-          />
-          <Route path="all-brands" element={<BrandsList />} />
-          {/* color category */}
-          <Route
-            path="add-color"
-            element={
-              <AdminAuthRoute>
-                <AddColor />
-              </AdminAuthRoute>
-            }
-          />
-          <Route path="all-colors" element={<ColorsList />} />
-          {/* Orders */}
-          <Route
-            path="manage-orders"
-            element={
-              <AdminAuthRoute>
-                <ManageOrders />
-              </AdminAuthRoute>
-            }
-          />
-          <Route
-            path="orders/:id"
-            element={
-              <AdminAuthRoute>
-                <UpdateOrders />
-              </AdminAuthRoute>
-            }
-          />
-          <Route
-            path="customers"
-            element={
-              <AdminAuthRoute>
-                <Customers />
-              </AdminAuthRoute>
-            }
-          />
+          <Route index element={<OrdersList />} />
+          <Route path="add-product" element={<AddProduct />} />
+          <Route path="manage-products" element={<ManageStocks />} />
+          <Route path="products/edit/:id" element={<UpdateProduct />} />
+          <Route path="add-coupon" element={<AddCoupon />} />
+          <Route path="manage-coupon" element={<ManageCoupons />} />
+          <Route path="manage-coupon/edit/:code" element={<UpdateCoupon />} />
+
+          {/* Category Routes */}
+          <Route path="category/to-add" element={<CategoryToAdd />} />
+          <Route path="category/add" element={<AddCategory />} />
+          <Route path="category/manage" element={<ManageCategories />} />
+          <Route path="category/edit/:id" element={<UpdateCategory />} />
+          <Route path="category/add-brand" element={<AddBrand />} />
+          <Route path="category/all-brands" element={<BrandsList />} />
+          <Route path="category/add-color" element={<AddColor />} />
+          <Route path="category/all-colors" element={<ColorsList />} />
+
+          {/* Order Routes */}
+          <Route path="orders/manage" element={<ManageOrders />} />
+          <Route path="orders/:id" element={<UpdateOrders />} />
+          <Route path="orders/customers" element={<Customers />} />
         </Route>
 
-        {/* public links */}
-        {/* Products */}
+        {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/products-filters" element={<ProductsFilters />} />
         <Route path="/products/:id" element={<Product />} />
         <Route path="/all-categories" element={<AllCategories />} />
-        <Route
-          path="success"
-          element={
-            <AuthRoute>
-              <ThanksForOrdering />
-            </AuthRoute>
-          }
-        />
-
-        {/* review */}
-        <Route
-          path="/add-review/:id"
-          element={
-            <AuthRoute>
-              <AddReview />
-            </AuthRoute>
-          }
-        />
-
-        {/* shopping cart */}
         <Route path="/shopping-cart" element={<ShoppingCart />} />
+
+        {/* Auth Routes */}
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/register" element={<RegisterForm />} />
         <Route
-          path="/order-payment"
+          path="/auth/order-payment"
           element={
             <AuthRoute>
               <OrderPayment />
             </AuthRoute>
           }
         />
-
-        {/* users */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<RegisterForm />} />
         <Route
-          path="/customer-profile"
+          path="/auth/success"
+          element={
+            <AuthRoute>
+              <ThanksForOrdering />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/auth/customer-profile"
           element={
             <AuthRoute>
               <CustomerProfile />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/auth/add-review/:id"
+          element={
+            <AuthRoute>
+              <AddReview />
             </AuthRoute>
           }
         />

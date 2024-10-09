@@ -1,19 +1,18 @@
-import { Fragment, useEffect, useState } from "react";
-import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
+import { Dialog, Popover, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   ShoppingCartIcon,
   UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
-import baseURL from "../../utils/baseURL";
-import logo from "./logo2.png";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCategoriesAction } from "../../redux/slices/categories/categoriesSlice";
+import { Link } from "react-router-dom";
 import { getCartItemsFromLocalStorageAction } from "../../redux/slices/cart/cartSlice";
-import { logoutUserAction } from "../../redux/slices/users/usersSlice";
+import { fetchAllCategoriesAction } from "../../redux/slices/categories/categoriesSlice";
 import { fetchAllCouponsAction } from "../../redux/slices/coupons/couponsSlice";
+import { logoutUserAction } from "../../redux/slices/users/usersSlice";
+import logo from "./logo2.png";
 
 export default function Navbar() {
   // ! dispatch
