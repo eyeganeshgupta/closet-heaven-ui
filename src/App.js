@@ -57,19 +57,19 @@ const App = () => {
           <Route path="manage-coupon/edit/:code" element={<UpdateCoupon />} />
 
           {/* Category Routes */}
-          <Route path="category/to-add" element={<CategoryToAdd />} />
-          <Route path="category/add" element={<AddCategory />} />
-          <Route path="category/manage" element={<ManageCategories />} />
-          <Route path="category/edit/:id" element={<UpdateCategory />} />
-          <Route path="category/add-brand" element={<AddBrand />} />
-          <Route path="category/all-brands" element={<BrandsList />} />
-          <Route path="category/add-color" element={<AddColor />} />
-          <Route path="category/all-colors" element={<ColorsList />} />
+          <Route path="category-to-add" element={<CategoryToAdd />} />
+          <Route path="add-category" element={<AddCategory />} />
+          <Route path="manage-category" element={<ManageCategories />} />
+          <Route path="edit-category/:id" element={<UpdateCategory />} />
+          <Route path="add-brand" element={<AddBrand />} />
+          <Route path="all-brands" element={<BrandsList />} />
+          <Route path="add-color" element={<AddColor />} />
+          <Route path="all-colors" element={<ColorsList />} />
 
           {/* Order Routes */}
-          <Route path="orders/manage" element={<ManageOrders />} />
+          <Route path="manage-orders" element={<ManageOrders />} />
           <Route path="orders/:id" element={<UpdateOrders />} />
-          <Route path="orders/customers" element={<Customers />} />
+          <Route path="customers" element={<Customers />} />
         </Route>
 
         {/* Public Routes */}
@@ -80,10 +80,10 @@ const App = () => {
         <Route path="/shopping-cart" element={<ShoppingCart />} />
 
         {/* Auth Routes */}
-        <Route path="/auth/login" element={<Login />} />
-        <Route path="/auth/register" element={<RegisterForm />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<RegisterForm />} />
         <Route
-          path="/auth/order-payment"
+          path="/order-payment"
           element={
             <AuthRoute>
               <OrderPayment />
@@ -91,7 +91,7 @@ const App = () => {
           }
         />
         <Route
-          path="/auth/success"
+          path="success"
           element={
             <AuthRoute>
               <ThanksForOrdering />
@@ -99,7 +99,7 @@ const App = () => {
           }
         />
         <Route
-          path="/auth/customer-profile"
+          path="/customer-profile"
           element={
             <AuthRoute>
               <CustomerProfile />
@@ -107,7 +107,7 @@ const App = () => {
           }
         />
         <Route
-          path="/auth/add-review/:id"
+          path="/add-review/:id"
           element={
             <AuthRoute>
               <AddReview />
