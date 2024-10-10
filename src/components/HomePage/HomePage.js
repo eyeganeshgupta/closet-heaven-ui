@@ -134,7 +134,7 @@ export default function EnhancedHomePage() {
   }, []);
 
   const containerClass = `bg-gradient-to-b from-white to-gray-100 ${
-    !isLoggedIn ? "lg:mt-32" : "lg:mt-24"
+    !isLoggedIn ? "lg:mt-40" : "lg:mt-32"
   }`;
 
   return (

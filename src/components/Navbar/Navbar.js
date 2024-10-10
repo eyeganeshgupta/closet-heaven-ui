@@ -5,6 +5,7 @@ import {
   UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { AnimatePresence, motion } from "framer-motion";
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -15,19 +16,15 @@ import { logoutUserAction } from "../../redux/slices/users/usersSlice";
 import logo from "./logo2.png";
 
 export default function Navbar() {
-  // ! dispatch
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchAllCategoriesAction());
   }, [dispatch]);
 
-  // TODO: get data from store
   const {
     categories: { categories },
-  } = useSelector((state) => {
-    return state?.categories;
-  });
+  } = useSelector((state) => state?.categories);
 
   const categoriesToDisplay = categories?.slice(0, 4);
 
@@ -37,12 +34,8 @@ export default function Navbar() {
     dispatch(getCartItemsFromLocalStorageAction());
   }, [dispatch]);
 
-  // TODO: get cart items from store
-  const { cartItems } = useSelector((state) => {
-    return state?.cart;
-  });
+  const { cartItems } = useSelector((state) => state?.cart);
 
-  // TODO: get loggedIn user from localStorage
   const user = JSON.parse(localStorage.getItem("userInfo"));
 
   const isLoggedIn = user?.token ? true : false;
@@ -52,176 +45,168 @@ export default function Navbar() {
     window.location.reload();
   };
 
-  // TODO: fetch all coupons
   useEffect(() => {
     dispatch(fetchAllCouponsAction());
   }, [dispatch]);
 
-  // TODO: get coupons from store
-  const { loading, coupons, error } = useSelector((state) => {
-    return state?.coupons;
-  });
+  const { loading, coupons, error } = useSelector((state) => state?.coupons);
 
-  // TODO: get current coupon
   const currentCoupon = coupons
     ? coupons?.coupons?.[coupons?.coupons?.length - 1]
-    : console.log(currentCoupon);
+    : null;
 
   return (
     <div className="bg-white">
       {/* Mobile menu */}
-      <Transition.Root show={mobileMenuOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-40 lg:hidden"
-          onClose={setMobileMenuOpen}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="transition-opacity ease-linear duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-300"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+            <Transition.Root show={mobileMenuOpen} as={Fragment}>
+              <Dialog
+                as="div"
+                className="relative z-40 lg:hidden"
+                onClose={setMobileMenuOpen}
+              >
+                <Transition.Child
+                  as={Fragment}
+                  enter="transition-opacity ease-linear duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity ease-linear duration-300"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <div className="fixed inset-0 bg-black bg-opacity-25" />
+                </Transition.Child>
 
-          <div className="fixed inset-0 z-40 flex">
-            <Transition.Child
-              as={Fragment}
-              enter="transition ease-in-out duration-300 transform"
-              enterFrom="-translate-x-full"
-              enterTo="translate-x-0"
-              leave="transition ease-in-out duration-300 transform"
-              leaveFrom="translate-x-0"
-              leaveTo="-translate-x-full"
-            >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
-                <div className="flex px-4 pt-5 pb-2">
-                  <button
-                    type="button"
-                    className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
-                    onClick={() => setMobileMenuOpen(false)}
+                <div className="fixed inset-0 z-40 flex">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="transition ease-in-out duration-300 transform"
+                    enterFrom="-translate-x-full"
+                    enterTo="translate-x-0"
+                    leave="transition ease-in-out duration-300 transform"
+                    leaveFrom="translate-x-0"
+                    leaveTo="-translate-x-full"
                   >
-                    <span className="sr-only">Close menu</span>
-                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                </div>
-                {/* mobile category menu links */}
-                <div className="space-y-6 border-t border-gray-200 py-6 px-4">
-                  {/* {navigation.pages.map((page) => (
-                    <div key={page.name} className="flow-root">
-                      <a
-                        href={page.href}
-                        className="-m-2 block p-2 font-medium text-gray-900">
-                        {page.name}
-                      </a>
-                    </div>
-                  ))} */}
-                  {categoriesToDisplay?.length <= 0 ? (
-                    <>
-                      <Link
-                        to={"/products?category=clothing"}
-                        className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                      >
-                        Clothing
-                      </Link>
-
-                      <Link
-                        to="/"
-                        className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                      >
-                        Men
-                      </Link>
-
-                      <Link
-                        to="/"
-                        className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                      >
-                        Women
-                      </Link>
-                    </>
-                  ) : (
-                    categoriesToDisplay?.map((category) => {
-                      return (
-                        <>
-                          <Link
-                            key={category?._id}
-                            to={`/products-filters?category=${category?.name}`}
-                            className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                          >
-                            {category?.name}
-                          </Link>
-                        </>
-                      );
-                    })
-                  )}
-                </div>
-
-                {/* mobile links register/login */}
-                <div className="space-y-6 border-t border-gray-200 py-6 px-4">
-                  {!isLoggedIn && (
-                    <>
-                      <div className="flow-root">
-                        <Link
-                          to="/register"
-                          className="-m-2 block p-2 font-medium text-gray-900"
+                    <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
+                      <div className="flex px-4 pt-5 pb-2">
+                        <button
+                          type="button"
+                          className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
+                          onClick={() => setMobileMenuOpen(false)}
                         >
-                          Create an account
-                        </Link>
+                          <span className="sr-only">Close menu</span>
+                          <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                        </button>
                       </div>
-                      <div className="flow-root">
-                        <Link
-                          to="/login"
-                          className="-m-2 block p-2 font-medium text-gray-900"
-                        >
-                          Sign in
-                        </Link>
+                      {/* mobile category menu links */}
+                      <div className="space-y-6 border-t border-gray-200 py-6 px-4">
+                        {categoriesToDisplay?.length <= 0 ? (
+                          <>
+                            <Link
+                              to={"/products?category=clothing"}
+                              className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                            >
+                              Clothing
+                            </Link>
+                            <Link
+                              to="/"
+                              className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                            >
+                              Men
+                            </Link>
+                            <Link
+                              to="/"
+                              className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                            >
+                              Women
+                            </Link>
+                          </>
+                        ) : (
+                          categoriesToDisplay?.map((category) => (
+                            <Link
+                              key={category?._id}
+                              to={`/products-filters?category=${category?.name}`}
+                              className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                            >
+                              {category?.name}
+                            </Link>
+                          ))
+                        )}
                       </div>
-                    </>
-                  )}
-                </div>
 
-                <div className="space-y-6 border-t border-gray-200 py-6 px-4"></div>
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition.Root>
+                      {/* mobile links register/login */}
+                      <div className="space-y-6 border-t border-gray-200 py-6 px-4">
+                        {!isLoggedIn && (
+                          <>
+                            <div className="flow-root">
+                              <Link
+                                to="/register"
+                                className="-m-2 block p-2 font-medium text-gray-900"
+                              >
+                                Create an account
+                              </Link>
+                            </div>
+                            <div className="flow-root">
+                              <Link
+                                to="/login"
+                                className="-m-2 block p-2 font-medium text-gray-900"
+                              >
+                                Sign in
+                              </Link>
+                            </div>
+                          </>
+                        )}
+                      </div>
+
+                      <div className="space-y-6 border-t border-gray-200 py-6 px-4"></div>
+                    </Dialog.Panel>
+                  </Transition.Child>
+                </div>
+              </Dialog>
+            </Transition.Root>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <header className="relative z-10">
         <nav aria-label="Top" className="fixed top-0 left-0 right-0">
-          {/* Top navigation  desktop*/}
-
-          {!currentCoupon?.isExpired && (
-            <div className="bg-yellow-600">
-              <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                <p
-                  style={{
-                    textAlign: "center",
-                    width: "100%",
-                  }}
-                  className="flex-1 text-center text-sm font-medium text-white lg:flex-none"
-                >
-                  {currentCoupon
-                    ? `${currentCoupon?.code} ~ ${currentCoupon?.discount}%, ${currentCoupon?.daysLeft}`
-                    : "No flash sale at the moment"}
-                </p>
-              </div>
-            </div>
-          )}
+          {/* Top navigation desktop */}
+          <AnimatePresence>
+            {!currentCoupon?.isExpired && (
+              <motion.div
+                initial={{ y: -50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -50, opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="bg-yellow-600"
+              >
+                <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+                  <p
+                    style={{
+                      textAlign: "center",
+                      width: "100%",
+                    }}
+                    className="flex-1 text-center text-sm font-medium text-white lg:flex-none"
+                  >
+                    {currentCoupon
+                      ? `${currentCoupon?.code} ~ ${currentCoupon?.discount}%, ${currentCoupon?.daysLeft}`
+                      : "No flash sale at the moment"}
+                  </p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {!isLoggedIn && (
             <div className="bg-gray-800 hidden lg:block">
               <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                {/*
-              <p className="flex-1 text-center text-sm font-medium text-white lg:flex-none">
-                Get free delivery on orders over 499₹
-              </p>
-              */}
-
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   {!isLoggedIn && (
                     <>
@@ -249,7 +234,12 @@ export default function Navbar() {
           )}
 
           {/* Desktop Navigation */}
-          <div className="bg-white">
+          <motion.div
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="bg-white"
+          >
             <div className="border-b border-gray-200">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
@@ -266,7 +256,7 @@ export default function Navbar() {
                   </div>
 
                   <div className="hidden h-full lg:flex">
-                    {/*  menus links*/}
+                    {/* menus links */}
                     <Popover.Group className="ml-8">
                       <div className="flex h-full justify-center space-x-8">
                         {categoriesToDisplay?.length <= 0 ? (
@@ -277,14 +267,12 @@ export default function Navbar() {
                             >
                               Clothing
                             </Link>
-
                             <Link
                               to="/"
                               className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
                             >
                               Men
                             </Link>
-
                             <Link
                               to="/"
                               className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
@@ -293,25 +281,21 @@ export default function Navbar() {
                             </Link>
                           </>
                         ) : (
-                          categoriesToDisplay?.map((category) => {
-                            return (
-                              <>
-                                <Link
-                                  key={category?._id}
-                                  to={`/products-filters?category=${category?.name}`}
-                                  className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                                >
-                                  {category?.name}
-                                </Link>
-                              </>
-                            );
-                          })
+                          categoriesToDisplay?.map((category) => (
+                            <Link
+                              key={category?._id}
+                              to={`/products-filters?category=${category?.name}`}
+                              className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                            >
+                              {category?.name}
+                            </Link>
+                          ))
                         )}
                       </div>
                     </Popover.Group>
                   </div>
 
-                  {/* Mobile Naviagtion */}
+                  {/* Mobile Navigation */}
                   <div className="flex flex-1 items-center lg:hidden">
                     <button
                       type="button"
@@ -399,7 +383,7 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </nav>
       </header>
     </div>
